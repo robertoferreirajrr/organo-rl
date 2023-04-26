@@ -1,16 +1,31 @@
 import Colaborador from '../Colaborador'
+import hexToRgba from 'hex-to-rgba';
 import './Time.css'
 
-const Time = (props) => {
-    const css = {backgroundColor: props.corSecundaria}
+const Time = ({time, colaboradores, aoDeletar, mudarCor, aoFavoritar}) => {
+    const css = {backgroundColor: hexToRgba(time.cor, '0.3')}
 
     return (
         //Para o JSX é tudo uma linha só! Para ele se deu false ele nem roda o da direita!
         //ou (props.colaboradores.length) ? '' : '' -> operador ternário
-        (props.colaboradores.length > 0) && <section className='time' style={css}>
-        <h3 style={{borderColor: props.corPrimaria}}>{props.nome}</h3>
+        /**
+         * 
+         * 
+         * este retorna:
+         * <Componente onClick={() => executarFuncao()}
+         * este executa (Closures (as chaves) - este pedaço usa um bloco então se eu preciso retornar sou obrigado a usar return):
+         * <Componente onClick={() => { executarFuncao() }}
+         */
+        (colaboradores.length > 0) && <section className='time' style={css}>
+        <input type='color' value={time.cor} onChange={evento => {mudarCor(evento.target.value,time.id)}} className='input-cor'/>
+        <h3 style={{borderColor: time.cor}}>{time.nome}</h3>
         <div className='colaboradores'>
-        {props.colaboradores.map(colaborador => <Colaborador nome={colaborador.nome} cargo={colaborador.cargo} corDeFundo={props.corPrimaria} imagem={colaborador.imagem} key={colaborador.nome}/>)}
+        {colaboradores.map((colaborador) => {
+            //Para o react o componente é um objeto
+            const colaboradorComponente = <Colaborador colaborador={colaborador} corDeFundo={time.cor} key={colaborador.id} aoDeletar={aoDeletar} aoFavoritar={aoFavoritar}/>
+            //console.log(colaboradorComponente)
+            return colaboradorComponente
+        })}
         </div>
     </section>)
 }

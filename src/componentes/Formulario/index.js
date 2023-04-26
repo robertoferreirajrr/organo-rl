@@ -1,5 +1,5 @@
 import "./Formulario.css";
-import CampoDeTexto from "../CampoDeTexto";
+import Campo from "../Campo";
 import ListaSuspensa from "../ListaSuspensa";
 import Botao from "../Botao";
 import { useState } from "react";
@@ -11,6 +11,9 @@ const Formulario = (props) => {
   const [imagem, setImagem] = useState("");
   const [time, setTime] = useState("");
 
+  const [nomeTime, setNomeTime] = useState("");
+  const [corTime, setCorTime] = useState("");
+
   const aoSalvar = (evento) => {
     evento.preventDefault();
     console.log("Formulário foi submetido", cargo, nome, imagem, time);
@@ -20,29 +23,40 @@ const Formulario = (props) => {
       imagem,
       time,
     });
+
+
     setNome('')
     setCargo('')
     setImagem('')
-    setTime('')
   };
+
+  const aoSalvarTime = (evento) => {
+    evento.preventDefault()
+    props.onTimeCadastrado({
+      nome: nomeTime,
+      cor: corTime
+    });
+    setNomeTime('')
+    setCorTime('')
+  }
   return (
     <section className="formulario">
       <form onSubmit={aoSalvar}>
-        <CampoDeTexto
+        <Campo
           valor={nome}
           aoAlterado={(valor) => setNome(valor)}
           obrigatorio="{true}"
           label="Nome"
           placeholder="Digite seu nome"
         />
-        <CampoDeTexto
+        <Campo
           valor={cargo}
           aoAlterado={(valor) => setCargo(valor)}
           obrigatorio="{true}"
           label="Cargo"
           placeholder="Digite o cargo"
         />
-        <CampoDeTexto
+        <Campo
           valor={imagem}
           aoAlterado={(valor) => setImagem(valor)}
           label="Imagem"
@@ -50,11 +64,29 @@ const Formulario = (props) => {
         />
         <ListaSuspensa
           valor={time}
-          aoAlterado={(valor) => setTime(valor)}
+          aoAlterado={(valor) => {console.log('setando time', valor); setTime(valor)}}
           label="Times"
           itens={props.times}
         />
-        <Botao>Enviar</Botao>
+        <Botao>Criar Colaborador</Botao>
+      </form>
+      <form onSubmit={aoSalvarTime}>
+        <Campo
+          valor={nomeTime}
+          aoAlterado={(valor) => setNomeTime(valor)}
+          obrigatorio
+          label="Nome"
+          placeholder="Digite o nome do time"
+        />
+        <Campo
+          type='color'
+          valor={corTime}
+          aoAlterado={(valor) => setCorTime(valor)}
+          obrigatorio
+          label="Cor"
+          placeholder="Digite a cor do gime"
+        />
+        <Botao>Criar Time</Botao>
       </form>
     </section>
   );

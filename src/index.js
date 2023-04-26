@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 //Esse é o bootstrap da aplicação
+//Javascript puro = Vanilla
+//React = Biblioteca (ele serve uma proposta específica! E por causa disso ele é maleável e fexlível)\
+//O index.html é o DOM real e o ReactDOM.createRoot é o virtualDOM
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   //Em ambiente de desenvolvimento ele vai nos dar mensagem de erros mais amigáveis!
